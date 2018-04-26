@@ -10,7 +10,6 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Cap;
 import android.graphics.RectF;
-import android.support.annotation.NonNull;
 import android.util.AttributeSet;
 import android.util.Property;
 import android.view.View;
@@ -157,7 +156,7 @@ public class CircleProgressView extends View {
     }
 
     @Override
-    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
+    protected void onVisibilityChanged(View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
         if (visibility == VISIBLE) {
             start();
