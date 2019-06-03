@@ -6,6 +6,7 @@
     android:layout_height="match_parent">
 
     <com.ashlikun.circleprogress.CircleProgressView
+        android:id="@+id/progressView"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:padding="10dp" />

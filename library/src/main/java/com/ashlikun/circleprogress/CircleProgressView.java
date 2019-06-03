@@ -95,17 +95,12 @@ public class CircleProgressView extends View {
             }
         }
         a.recycle();
-
-        mCurrentColorIndex = 0;
-        mNextColorIndex = mColors.length > 1 ? 1 : 0;
-
         mPaint = new Paint();
         mPaint.setAntiAlias(true);
         mPaint.setStyle(Paint.Style.STROKE);
         mPaint.setStrokeCap(Cap.ROUND);
         mPaint.setStrokeWidth(mBorderWidth);
-        mPaint.setColor(mColors[mCurrentColorIndex]);
-
+        setColors(mColors);
         setupAnimations();
     }
 
@@ -283,6 +278,23 @@ public class CircleProgressView extends View {
         });
     }
 
+    /**
+     * 设置进度条颜色
+     */
+    public void setColor(int color) {
+        setColors(new int[]{color});
+    }
+
+    /**
+     * 设置进度条颜色
+     */
+    public void setColors(int[] colors) {
+        this.mColors = colors;
+        mCurrentColorIndex = 0;
+        mNextColorIndex = mColors.length > 1 ? 1 : 0;
+        mPaint.setColor(mColors[mCurrentColorIndex]);
+    }
+
     public void setCurrentGlobalAngle(float currentGlobalAngle) {
         mCurrentGlobalAngle = currentGlobalAngle;
         invalidate();
@@ -300,4 +312,5 @@ public class CircleProgressView extends View {
     public float getCurrentSweepAngle() {
         return mCurrentSweepAngle;
     }
+
 }
