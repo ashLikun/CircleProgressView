@@ -1,8 +1,8 @@
+package com.ashlikun.circleprogress.simple;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.ashlikun.circleprogress.CircleProgressView;
-import com.ashlikun.circleprogress.simple.R;
 
 public class MainActivity extends AppCompatActivity {
 
