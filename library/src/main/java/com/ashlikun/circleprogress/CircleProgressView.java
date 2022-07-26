@@ -109,8 +109,16 @@ public class CircleProgressView extends View {
             return;
         }
         mRunning = true;
-        mObjectAnimatorAngle.start();
-        mObjectAnimatorSweep.start();
+        if (mObjectAnimatorAngle.isPaused()) {
+            mObjectAnimatorAngle.resume();
+        } else {
+            mObjectAnimatorAngle.start();
+        }
+        if (mObjectAnimatorSweep.isPaused()) {
+            mObjectAnimatorSweep.resume();
+        } else {
+            mObjectAnimatorSweep.start();
+        }
         invalidate();
     }
 
@@ -119,12 +127,12 @@ public class CircleProgressView extends View {
             return;
         }
         mRunning = false;
-        mObjectAnimatorAngle.cancel();
-        mObjectAnimatorSweep.cancel();
+        mObjectAnimatorAngle.pause();
+        mObjectAnimatorSweep.pause();
         invalidate();
     }
 
-    private boolean isRunning() {
+    public boolean isRunning() {
         return mRunning;
     }
 
