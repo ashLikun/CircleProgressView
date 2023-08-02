@@ -11,5 +11,10 @@
         android:layout_height="50dp"
         android:padding="10dp" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:text="test"
+        android:onClick="onTestClick"
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

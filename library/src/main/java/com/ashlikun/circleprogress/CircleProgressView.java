@@ -1,6 +1,5 @@
 package com.ashlikun.circleprogress;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.animation.ValueAnimator;
 import android.content.Context;
@@ -34,8 +33,11 @@ public class CircleProgressView extends View {
     private float mBorderWidth;
 
     private final RectF fBounds = new RectF();
+    //进度动画
     private ObjectAnimator mObjectAnimatorSweep;
+    //View 本身旋转动画
     private ObjectAnimator mObjectAnimatorAngle;
+    //是否出现模式
     private boolean mModeAppearing = true;
     private Paint mPaint;
     private float mCurrentGlobalAngleOffset;
@@ -195,10 +197,12 @@ public class CircleProgressView extends View {
         float startAngle = mCurrentGlobalAngle - mCurrentGlobalAngleOffset;
         float sweepAngle = mCurrentSweepAngle;
         if (mModeAppearing) {
+            //出现模式
             mPaint.setColor(gradient(mColors[mCurrentColorIndex], mColors[mNextColorIndex],
                     mCurrentSweepAngle / (360 - minSweepAngle * 2)));
             sweepAngle += minSweepAngle;
         } else {
+            sweepAngle = mCurrentSweepAngle;
             startAngle = startAngle + sweepAngle;
             sweepAngle = 360 - sweepAngle - minSweepAngle;
         }
@@ -247,7 +251,18 @@ public class CircleProgressView extends View {
 
         @Override
         public void set(CircleProgressView object, Float value) {
-            object.setCurrentSweepAngle(value);
+            if (value < 0) {
+                if (!object.mModeAppearing) {
+                    object.toggleAppearingMode();
+                }
+                object.setCurrentSweepAngle(360f - minSweepAngle * 2 + value);
+            } else if (value > 0) {
+                if (object.mModeAppearing) {
+                    object.toggleAppearingMode();
+                }
+                object.setCurrentSweepAngle(value);
+            }
+
         }
     };
 
@@ -258,32 +273,12 @@ public class CircleProgressView extends View {
         mObjectAnimatorAngle.setRepeatMode(ValueAnimator.RESTART);
         mObjectAnimatorAngle.setRepeatCount(ValueAnimator.INFINITE);
 
-        mObjectAnimatorSweep = ObjectAnimator.ofFloat(this, mSweepProperty, 360f - minSweepAngle * 2);
+        mObjectAnimatorSweep = ObjectAnimator.ofFloat(this, mSweepProperty, -(360f - minSweepAngle * 2), 360f - minSweepAngle * 2);
         mObjectAnimatorSweep.setInterpolator(SWEEP_INTERPOLATOR);
-        mObjectAnimatorSweep.setDuration(sweepAnimatorDuration);
+        mObjectAnimatorSweep.setDuration(sweepAnimatorDuration * 2);
         mObjectAnimatorSweep.setRepeatMode(ValueAnimator.RESTART);
         mObjectAnimatorSweep.setRepeatCount(ValueAnimator.INFINITE);
-        mObjectAnimatorSweep.addListener(new Animator.AnimatorListener() {
-            @Override
-            public void onAnimationStart(Animator animation) {
 
-            }
-
-            @Override
-            public void onAnimationEnd(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationCancel(Animator animation) {
-
-            }
-
-            @Override
-            public void onAnimationRepeat(Animator animation) {
-                toggleAppearingMode();
-            }
-        });
     }
 
     /**
